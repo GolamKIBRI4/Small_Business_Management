@@ -9,8 +9,12 @@ mongoose.connect('mongodb+srv://golamkibria:1234@cluster0.lzxkxdz.mongodb.net/au
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
-  secret: String
+  secret: String,
+  phone: Number,
+  route: String,
+  photo: String // Will store file name (or URL) of uploaded image
 });
+
 userSchema.plugin(plm);
 
 module.exports = mongoose.model('User', userSchema);
