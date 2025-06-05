@@ -6,19 +6,16 @@ mongoose.connect('mongodb+srv://golamkibria:1234@cluster0.lzxkxdz.mongodb.net/au
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
 
-const userSchema = new mongoose.Schema({
+const ownerSchema = new mongoose.Schema({
+  companyName: String, 
   username: String,
   password: String,
   secret: String,
   phone: Number,
   route: String,
-  photo: String, // Will store file name (or URL) of uploaded image
-   owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Owner"
-  }
+  photo: String // Will store file name (or URL) of uploaded image
 });
 
-userSchema.plugin(plm);
+ownerSchema.plugin(plm);
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Owner', ownerSchema);

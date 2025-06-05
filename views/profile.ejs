@@ -78,7 +78,7 @@
         
           <div class="profilediv " style="margin-top: 20px; margin-right: 665px;">
             <% if (user.photo) { %>
-              <img src="/uploads/<%= user.photo %>" style="width: 300px; height: 200px; border-radius: 5px;" alt="Profile Photo">
+              <img src="/uploads/<%= user.photo %>" style="width: 300px;background-size: cover ; height: 200px; border-radius: 5px;" alt="Profile Photo">
             <% } else { %>
               <img src="https://via.placeholder.com/300x200?text=No+Photo" style="width: 300px; height: 200px; border-radius: 5px;" alt="No Photo">
             <% } %>
