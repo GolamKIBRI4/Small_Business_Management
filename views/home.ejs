@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Design Tips</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d0d0d;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 120px 20px 100px;
+      z-index: 1;
+      background-color: #0d0d0d;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 900;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 20px auto;
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    .form-wrapper {
+      max-width: 500px;
+      margin: 30px auto;
+      display: flex;
+    }
+
+    .form-control {
+      border-radius: 0;
+    }
+
+    .btn-submit {
+      background-color: #7b4ef6;
+      color: white;
+      font-weight: 600;
+      border-radius: 0;
+    }
+
+    .nav-links {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      z-index: 2;
+    }
+
+    .nav-links a {
+      color: white;
+      margin-left: 30px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: #7b4ef6;
+    }
+
+    /* SVG wave background */
+    .wave-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .wave-bg svg {
+      position: absolute;
+      top: -50px;
+      left: 0;
+      width: 100%;
+    }
+
+    footer {
+      text-align: center;
+      color: #999;
+      font-size: 0.9rem;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="nav-links">
+    <a href="/userhome">User</a>
+    <a href="/ownerhome">Owner</a>
+  </div>
+
+  <!-- SVG Wave Background -->
+  <div class="wave-bg">
+    <svg viewBox="0 0 1440 320">
+      <path fill="#6f00ff" fill-opacity="0.3" d="M0,160L60,186.7C120,213,240,267,360,256C480,245,600,171,720,160C840,149,960,203,1080,218.7C1200,235,1320,213,1380,202.7L1440,192L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+    </svg>
+  </div>
+
+  <!-- Hero Content -->
+  <section class="hero">
+    <div class="container">
+      <h1>Design and Development tips.<br>Every weekday.</h1>
+      <p>Join our growing community of 21,000+ members and receive the best web design and development tips every weekday, plus exclusive deals.</p>
+      <p><strong>You'll get 300 custom icons just for signing up!</strong></p>
+
+      <form class="form-wrapper">
+        <input type="email" class="form-control" placeholder="Email Address..." required />
+        <button type="submit" class="btn btn-submit px-4">Submit</button>
+      </form>
+
+      <p class="text-muted">No spam. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2024 Your Brand. All rights reserved.
+  </footer>
+
+</body>
+</html>

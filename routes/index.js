@@ -11,7 +11,19 @@ passport.use(new LocalStrategy(userModel.authenticate()));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  res.render('home');
+});
+//user home page
+router.get('/userhome', function(req, res, next) {
+  res.render('userhome');
+});
+//Owner home page
+router.get('/ownerhome', function(req, res, next) {
+  res.render('ownerhome');
+});
+//register a company and owner
+router.get("/registercompany", function(req, res) {
+  res.render("registercompany");
 });
 router.get('/profile',isLoggedIn ,async function(req, res, next) {
   const user= await userModel.findById(req.user._id);
