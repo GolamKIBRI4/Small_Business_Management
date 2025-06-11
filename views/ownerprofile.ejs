@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Profile</title>
+</head>
+<body>
+    <h1>Owner Profile</h1>
+    <p>Username: <%= owner.username || 'Not provided' %></p>
+    <p>Phone: <%= owner.phone || 'Not provided' %></p>
+    <p>Route: <%= owner.route || 'Not provided' %></p>
+    <% if (owner.photo) { %>
+        <img src="/uploads/<%= owner.photo %>" alt="Profile Photo" />
+    <% } else { %>
+        <img src="https://via.placeholder.com/300x200?text=No+Photo" alt="No Photo" />
+    <% } %>
+</body>
+</html>

@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   phone: Number,
   route: String,
   photo: String, // Will store file name (or URL) of uploaded image
-   owner: {
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Owner"
   }

@@ -8,6 +8,7 @@ var passport = require('passport');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var ownerModel = require('./routes/owner');
 
 var app = express();
 
@@ -22,8 +23,32 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(usersRouter.serializeUser());
-passport.deserializeUser(usersRouter.deserializeUser());
+
+
+
+// Passport serialization and deserialization for multiple entities Authentication setup
+passport.serializeUser((user, done) => {
+  // Tag user type to identify during deserialization
+  const type = user instanceof usersRouter ? 'User' : 'Owner';
+  done(null, { id: user.id, type });
+});
+
+passport.deserializeUser(async (obj, done) => {
+  try {
+    if (obj.type === 'User') {
+      const user = await usersRouter.findById(obj.id);
+      done(null, user);
+    } else if (obj.type === 'Owner') {
+      const owner = await ownerModel.findById(obj.id);
+      done(null, owner);
+    } else {
+      done(new Error('Unknown user type'));
+    }
+  } catch (err) {
+    done(err);
+  }
+});
+
 
 app.use(logger('dev'));
 app.use(express.json());

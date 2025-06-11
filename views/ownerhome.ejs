@@ -8,69 +8,85 @@
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
 
   <style>
     body {
-      background: #0e0e0e;
-      font-family: 'Poppins', sans-serif;
-      color: white;
       margin: 0;
-      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d0d0d;
+      color: white;
+      overflow-x: hidden;
     }
 
-    .top-bar {
+    .nav-links {
       position: absolute;
-      top: 20px;
-      right: 30px;
-      display: flex;
-      gap: 10px;
+      top: 30px;
+      right: 40px;
+      z-index: 3;
     }
 
-    .nav-link {
-      background-color: #7b4ef6;
-      text-decoration: none;
-      color: black;
-      padding: 10px 16px;
-      border-radius: 6px;
-      font-variant: small-caps;
+    .nav-links a {
+      color: white;
+      margin-left: 30px;
       font-weight: 600;
-      transition: background-color 0.3s ease;
+      text-decoration: none;
     }
 
-    .nav-link:hover {
-      background-color: #9b6fff;
+    .nav-links a:hover {
+      color: #7b4ef6;
     }
 
-    .login-container {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 100px 20px 60px;
+      z-index: 1;
+      background-color: #0d0d0d;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 20px auto;
+      font-size: 1.1rem;
+      color: #bbb;
     }
 
     .login-box {
       background: #1a1a1a;
       padding: 40px 30px;
       border-radius: 12px;
-      box-shadow: 0 0 20px #7b4ef6;
+      box-shadow: 0 0 20px #444;
       max-width: 400px;
       width: 100%;
+      margin: 40px auto;
+      z-index: 2;
+      position: relative;
     }
 
-    .login-box h3 {
-      font-size: 32px;
-      color: #7b4ef6;
+    .login-box h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #ffffff;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
     .form-control {
       background-color: #2c2c2c;
       border: 1px solid #444;
       color: white;
+    }
+
+    .form-control::placeholder {
+      color: #888;
     }
 
     .form-control:focus {
@@ -92,39 +108,99 @@
       color: #aaa;
       font-size: 12px;
     }
+
+    .wave-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .wave-bg svg {
+      position: absolute;
+      top: -50px;
+      left: 0;
+      width: 100%;
+    }
+
+    @media (max-width: 576px) {
+      .hero h1,
+      .login-box h1 {
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        top: 15px;
+        right: 20px;
+      }
+
+      .nav-links a {
+        margin-left: 15px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
   <!-- Navigation -->
-  <div class="top-bar">
-    <a href="/" class="nav-link">Home</a>
-    <a href="/registercompany" class="nav-link">Register Company</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/registercompany">Register Company</a>
   </div>
+
+  <!-- SVG Wave Background -->
+  <div class="wave-bg">
+    <svg viewBox="0 0 1440 320">
+      <path fill="#7b4ef6" fill-opacity="0.2" d="M0,224L48,202.7C96,181,192,139,288,122.7C384,107,480,117,576,144C672,171,768,213,864,208C960,203,1056,149,1152,122.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome Back</h1>
+    <p>Log in to access your dashboard, manage your profile, and stay connected to your team and data.</p>
+  </section>
 
   <!-- Login Form -->
-  <div class="login-container">
-    <div class="login-box">
-      <h3>Already have an account? Login</h3>
+  <div class="login-box">
+    <h1>Login</h1>
+    <form action="/ownerlogin" method="post">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input name="username" type="text" class="form-control" id="username" placeholder="Enter your username" required />
+        <div class="form-text">We’ll never share your username with anyone else.</div>
+      </div>
 
-      <form action="/login" method="post">
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input name="username" type="text" class="form-control" id="username" required>
-          <div class="form-text">We'll never share your username with anyone else.</div>
-        </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input name="password" type="password" class="form-control" id="password" placeholder="Enter your password" required />
+      </div>
 
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input name="password" type="password" class="form-control" id="password" required>
-        </div>
-
-        <button type="submit" class="btn btn-login mt-3">Login</button>
-      </form>
-    </div>
+      <button type="submit" class="btn btn-login mt-3">Login</button>
+    </form>
   </div>
 
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loginBox = document.querySelector(".login-box");
+
+    if (loginBox) {
+      loginBox.addEventListener("click", () => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth"
+        });
+      });
+    }
+  });
+</script>
+
 </body>
 </html>

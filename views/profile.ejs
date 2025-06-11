@@ -15,8 +15,6 @@
       background-color: #0e0e0e;
       font-family: 'Poppins', sans-serif;
       color: white;
-      margin: 0;
-      padding: 0;
     }
 
     .navbar {
@@ -26,40 +24,26 @@
       justify-content: flex-end;
     }
 
-    .navbar .btn-danger {
+    .btn-danger {
       background-color: #ff4f5a;
       font-weight: 600;
       border: none;
     }
 
-    .profile-section {
-      display: flex;
-      padding: 40px 80px;
-      gap: 40px;
-      justify-content: space-between;
-    }
-
-    .left-column {
-      flex: 1;
-    }
-
-    .right-column {
-      width: 400px;
-    }
-
-    .profile-card, .formdiv, .orders-container {
+    .profile-card, .orders-container, .formdiv {
       background-color: #1a1a1a;
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 0 12px #7b4ef6;
+      margin-bottom: 30px;
     }
 
     .profile-card img {
       width: 100%;
-      height: 200px;
+      height: auto;
+      max-height: 300px;
       object-fit: cover;
       border-radius: 8px;
-      margin-bottom: 20px;
     }
 
     .btn-update {
@@ -92,8 +76,14 @@
       font-weight: 600;
     }
 
-    .orders-container {
-      margin-top: 30px;
+    @media (max-width: 768px) {
+      .profile-section {
+        flex-direction: column;
+      }
+
+      .btn-update {
+        margin-top: 20px;
+      }
     }
   </style>
 </head>
@@ -106,62 +96,69 @@
   </div>
 
   <!-- 👤 Profile Section -->
-  <div class="profile-section">
+  <div class="container py-5">
+    <div class="row g-5 align-items-start">
 
-    <!-- 👈 Left -->
-    <div class="left-column">
-      <div class="profile-card" style="margin-right: 75%;">
-        <% if (user.photo) { %>
-          <img src="/uploads/<%= user.photo %>" alt="Profile Photo" />
-        <% } else { %>
-          <img src="https://via.placeholder.com/300x200?text=No+Photo" alt="No Photo" />
-        <% } %>
+      <!-- 👈 Left Column -->
+      <div class="col-lg-7">
+        <div class="profile-card">
+          <% if (user.photo) { %>
+            <img src="/uploads/<%= user.photo %>" alt="Profile Photo" class="img-fluid" />
+          <% } else { %>
+            <img src="https://via.placeholder.com/300x200?text=No+Photo" alt="No Photo" class="img-fluid" />
+          <% } %>
 
-        <h5 class="mt-3">Username: <%= user.username || 'Not provided' %></h5>
-        <h5>Phone: <%= user.phone || 'Not provided' %></h5>
-        <h5>Route: <%= user.route || 'Not provided' %></h5>
+          <h5 class="mt-3">Username: <%= user.username || 'Not provided' %></h5>
+          <h5>Phone: <%= user.phone || 'Not provided' %></h5>
+          <h5>Route: <%= user.route || 'Not provided' %></h5>
+        </div>
+
+        <div class="orders-container">
+          <h5>🧾 User Orders</h5>
+          <p>This is where order cards will go.</p>
+        </div>
       </div>
 
-      <!-- 📦 Orders -->
-      <div class="orders-container mt-4">
-        <h5>🧾 User Orders</h5>
-        <p>This is where order cards will go.</p>
-      </div>
-    </div>
+      <!-- 👉 Right Column -->
+      <div class="col-lg-5">
+        <button class="btn btn-update" onclick="toggleForm()">Update Profile Info</button>
 
-    <!-- 👉 Right -->
-    <div class="right-column">
-      <button class="btn btn-update" onclick="toggleForm()">Update Profile Info</button>
-
-      <div class="formdiv">
-        <form id="updateForm" action="/update-profile" method="POST" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="phone">Phone Number</label>
-            <input type="text" name="phone" class="form-control"
-              pattern="01[0-9]{9}" maxlength="11" minlength="11"
-              title="Must be 11 digits and start with 01"
-              value="<%= user.phone || '' %>" />
-          </div>
-          <div class="mb-3">
-            <label for="route">Route</label>
-            <input type="text" name="route" class="form-control" value="<%= user.route || '' %>" />
-          </div>
-          <div class="mb-3">
-            <label for="photo">Upload New Photo</label>
-            <input type="file" name="photo" class="form-control" />
-          </div>
-          <button type="submit" class="btn btn-success">Save Changes</button>
-        </form>
+        <div class="formdiv">
+          <form id="updateForm" action="/update-profile" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="username">username</label>
+              <input type="text" name="username" class="form-control" value="<%= user.username || '' %>" />
+            </div>
+            <div class="mb-3">
+              <label for="phone">Phone Number</label>
+              <input type="text" name="phone" class="form-control"
+                pattern="01[0-9]{9}" maxlength="11" minlength="11"
+                title="Must be 11 digits and start with 01"
+                value="<%= user.phone || '' %>" />
+            </div>
+            <div class="mb-3">
+              <label for="route">Route</label>
+              <input type="text" name="route" class="form-control" value="<%= user.route || '' %>" />
+            </div>
+            <div class="mb-3">
+              <label for="photo">Upload New Photo</label>
+              <input type="file" name="photo" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+          </form>
+        </div>
       </div>
+
     </div>
   </div>
 
-  <!-- Script -->
+  <!-- JavaScript -->
   <script>
     function toggleForm() {
       const formdiv = document.querySelector('.formdiv');
       formdiv.style.display = formdiv.style.display === 'none' ? 'block' : 'none';
     }
   </script>
+
 </body>
 </html>

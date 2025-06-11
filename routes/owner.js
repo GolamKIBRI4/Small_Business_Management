@@ -7,12 +7,13 @@ mongoose.connect('mongodb+srv://golamkibria:1234@cluster0.lzxkxdz.mongodb.net/au
 
 
 const ownerSchema = new mongoose.Schema({
-  companyName: String, 
-  username: String,
+  username: String, // Unique username for the owner
+  companyname: String, 
+  ownername: String,
   password: String,
-  secret: String,
+  secret: Number,
   phone: Number,
-  route: String,
+  email: String,
   photo: String // Will store file name (or URL) of uploaded image
 });
 
