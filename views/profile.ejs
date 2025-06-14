@@ -21,7 +21,9 @@
     }
 
     .navbar {
-      background-color: #1a1a1a;
+     background-color:#7b4ef6;
+     opacity: 0.7;
+      width: 100%;
       padding: 15px 30px;
       display: flex;
       justify-content: flex-end;
@@ -34,14 +36,20 @@
       background-color: none;
       font-weight: 600;
       border: none;
-       color: white;
+       color: black;
       margin-left: 30px;
+      padding: 5px;
     
       text-decoration: none;
     }
 
     .btn-danger:hover {
-      color: #ff4f5a;
+      color: white;
+      background-color: red;
+      margin-right: -25px;
+      padding: 10px;
+      border-radius: 5px;
+      transition: all 0.3s ease-in-out;
     }
 
     .hero-wrapper {
@@ -95,7 +103,7 @@
       background-color: #1a1a1a;
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 0 20px #444;
+      box-shadow: 0 0 20px #7b4ef6;
       margin-bottom: 30px;
     }
 
@@ -123,7 +131,7 @@
     .close-btn {
       position: absolute;
       top: 2px;
-      right: 8px;
+      right: 18px;
      
       background: transparent;
       color: white;
@@ -131,6 +139,19 @@
       font-size: 1.4rem;
       font-weight: bold;
       cursor: pointer;
+      border-radius: 5px;
+    }
+    .close-btn:hover {
+    
+      color: white;
+      margin-top: -1.8px;
+      margin-right: -18px;
+      padding-left: 17px;
+      padding-right: 17px;
+      transition: all 0.1s ease-in-out;
+
+      background-color: red;
+      opacity: 0.8;
     }
 
     .form-control {
@@ -167,6 +188,37 @@
         margin-top: 20px;
       }
     }
+
+    .footer-wave {
+  position: relative;
+  text-align: center;
+  background-color: #0e0e0e;
+  overflow: hidden;
+  color: white;
+  padding: 100px 20px 80px;
+}
+
+.footer-wave svg {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.footer-wave h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  z-index: 2;
+  margin-top: 30px;
+}
+
+.footer-wave p {
+  color: #ccc;
+  z-index: 2;
+  white-space: nowrap;
+}
+
   </style>
 </head>
 
@@ -250,6 +302,24 @@
 
     </div>
   </div>
+<!-- 👣 Footer Wave SVG -->
+<!-- 👣 Footer Wave Section with Text -->
+<div class="footer-wave position-relative text-center text-white" style="background-color: #0e0e0e; overflow: hidden;">
+  
+  <!-- 🎨 SVG Wave -->
+  <svg viewBox="0 0 1440 320" style="display: block;">
+    <path fill="#7b4ef6" fill-opacity="0.2"
+      d="M0,64L80,90.7C160,117,320,171,480,181.3C640,192,800,160,960,160C1120,160,1280,192,1360,208L1440,224V320H1360C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320H0Z">
+    </path>
+  </svg>
+
+  <!-- 🙏 Thanksgiving Text -->
+  <div class="position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
+    <h1 style="font-size: 2rem; font-weight: 600;">Thanks for staying with us!</h1>
+    <p style="color: #ccc;">It's great to have you here.</p>
+  </div>
+</div>
+
 
   <!-- JS -->
   <script>
