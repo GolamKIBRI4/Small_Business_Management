@@ -37,7 +37,10 @@ router.get('/profile',isLoggedIn ,async function(req, res, next) {
 //owner profile
 router.get('/ownerprofile', isLoggedIn, async function(req, res, next) {
   const owner = await ownerModel.findById(req.user._id);
-  res.render('ownerprofile', { owner });
+  res.render('ownerprofile', { owner: owner,  
+    error: req.flash('error'),
+  success: req.flash('success') 
+});
 });
 
 //register a owner
@@ -116,6 +119,48 @@ router.post("/update-profile", isLoggedIn, upload.single('photo'), async functio
     res.status(500).send("Something went wrong.");
   }
 
+});
+// Route for owner profile update
+router.post("/update-owner-profile", isLoggedIn, upload.single('photo'), async function(req, res) {
+  const updates = {};
+
+  if (req.body.ownername) updates.ownername = req.body.ownername.trim();
+  if (req.body.phone) updates.phone = req.body.phone.trim();
+  if (req.body.email) updates.email = req.body.email.trim();
+  if (req.file) updates.photo = req.file.filename;
+
+  try {
+    const conflictQuery = {
+      _id: { $ne: req.user._id },
+      $or: []
+    };
+
+    if (updates.ownername) {
+      conflictQuery.$or.push({ ownername: updates.ownername });
+    }
+    if (updates.phone) {
+      conflictQuery.$or.push({ phone: updates.phone });
+    }
+    if (updates.email) {
+      conflictQuery.$or.push({ email: updates.email });
+    }
+
+    if (conflictQuery.$or.length > 0) {
+      const conflict = await ownerModel.findOne(conflictQuery);
+      if (conflict) {
+        req.flash('error', '❌ One or more fields already exist for another owner.');
+        return res.redirect('/ownerprofile');
+      }
+    }
+
+    await ownerModel.findByIdAndUpdate(req.user._id, updates);
+    req.flash('success', '✅ Profile updated successfully!');
+    res.redirect('/ownerprofile');
+  } catch (err) {
+    console.error("❌ Profile update failed:", err);
+    req.flash('error', 'Something went wrong. Please try again.');
+    res.redirect('/ownerprofile');
+  }
 });
 
 module.exports = router;

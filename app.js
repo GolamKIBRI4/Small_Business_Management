@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressSession = require('express-session');
+var flash = require('connect-flash');
+
 var passport = require('passport');
 
 var indexRouter = require('./routes/index');
@@ -21,6 +23,7 @@ app.use(expressSession({
   saveUninitialized: false,
   secret:"hello hello baaye baaye"
 }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
