@@ -32,7 +32,10 @@ router.get("/registercompany", function(req, res) {
 //user profile
 router.get('/profile',isLoggedIn ,async function(req, res, next) {
   const user= await userModel.findById(req.user._id);
-  res.render('profile', {user});
+  res.render('profile', {user:user,
+    error: req.flash('error'),
+    success: req.flash('success') 
+    });
 });
 //owner profile
 router.get('/ownerprofile', isLoggedIn, async function(req, res, next) {
@@ -111,15 +114,45 @@ router.post("/update-profile", isLoggedIn, upload.single('photo'), async functio
   if (req.body.route) updates.route = req.body.route;
   if (req.file) updates.photo = req.file.filename;
 
-  try {
+  try{
+    // Check for conflicts with other users
+    const conflictQuery = {
+      _id: { $ne: req.user._id },
+      $or: []
+    };
+
+    if (updates.username) {
+      conflictQuery.$or.push({ username: updates.username });
+    }
+    if (updates.phone) {
+      conflictQuery.$or.push({ phone: updates.phone });
+    }
+    if (updates.route) {
+      conflictQuery.$or.push({ route: updates.route });
+    }
+
+    if (conflictQuery.$or.length > 0) {
+      const conflict = await userModel.findOne(conflictQuery);
+      if (conflict) {
+        req.flash('error', '❌ One or more fields already exist for another user.');
+        // If using flash messages, redirect to the profile page
+        return res.redirect('/profile');
+      }
+    }
     await userModel.findByIdAndUpdate(req.user._id, updates);
     res.redirect('/profile');
   } catch (err) {
     console.error("❌ Profile update failed:", err);
-    res.status(500).send("Something went wrong.");
+    req.flash('error', 'Something went wrong. Please try again.');
+    res.redirect('/profile');
   }
 
+  
+
+ 
+
 });
+
 // Route for owner profile update
 router.post("/update-owner-profile", isLoggedIn, upload.single('photo'), async function(req, res) {
   const updates = {};
