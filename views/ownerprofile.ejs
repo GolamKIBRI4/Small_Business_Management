@@ -212,6 +212,11 @@
       z-index: 2;
       white-space: nowrap;
     }
+    .formbuttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+    } 
   </style>
 </head>
 
@@ -264,10 +269,13 @@
 
       <!-- 👉 Right Column -->
       <div class="col-lg-5">
-        <button class="btn btn-update" onclick="toggleForm()">Update Profile Info</button>
+        <div class="formbuttons">
+          <button class="btn btn-update" onclick="toggleForm()">Update Profile Info</button>
+          <button class="btn btn-update" onclick="toggleUserForm()">Create User</button>
+        </div>
 
         <div class="formdiv" id="formContainer">
-          <button class="close-btn" onclick="toggleForm()">×</button>
+          <button class="close-btn" onclick="{toggleForm()}">×</button>
 
           <form id="updateForm" action="/update-owner-profile" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
@@ -295,12 +303,34 @@
         
 
         </div>
-          <% if (error && error.length > 0) { %>
-  <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="background-color: #7b4ef6; ">
-    <%= error[0] %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="background-color: #7b4ef6;"></button>
-  </div>
-<% } %>
+       <!-- 👉 Create User Form -->
+        <div class="formdiv" id="createUserForm" style="display: none;">
+          <button class="close-btn" onclick="{toggleUserForm()}">×</button>
+
+          <form id="createForm" action="/create-user" method="POST">
+            <div class="mb-3">
+              <label for="username">Username</label>
+              <input type="text" name="username" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="email">Email</label>
+              <input type="text" name="email" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="password">Password</label>
+              <input type="password" name="password" class="form-control" />
+            </div>
+            <button type="submit" class="btn-success">Create User</button>
+          </form>
+        </div>
+       <!-- 👉Flash Message-->
+       <div class="right-column">
+         <% if (error && error.length > 0) { %>
+           <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="background-color: #7b4ef6; ">
+             <%= error[0] %>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="background-color: #7b4ef6;"></button>
+           </div>
+         <% } %>
 
 <% if (success && success.length > 0) { %>
   <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" style="background-color: #7b4ef6;">
@@ -331,6 +361,11 @@
       const formdiv = document.getElementById('formContainer');
       formdiv.style.display = formdiv.style.display === 'none' ? 'block' : 'none';
     }
+
+    function toggleUserForm() {
+      const userForm = document.getElementById('createUserForm');
+      userForm.style.display = userForm.style.display === 'none' ? 'block' : 'none';
+    } 
 
     // Auto-dismiss flash messages after 3 seconds
     setTimeout(() => {

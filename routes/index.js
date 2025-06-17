@@ -109,9 +109,9 @@ router.post("/update-profile", isLoggedIn, upload.single('photo'), async functio
     const updates = {};
 
   // Only include the fields that were sent by the form
-  if (req.body.username) updates.username = req.body.username;
-  if (req.body.phone) updates.phone = req.body.phone;
-  if (req.body.route) updates.route = req.body.route;
+  if (req.body.username) updates.username = req.body.username.trim();
+  if (req.body.phone) updates.phone = req.body.phone.trim();
+  if (req.body.route) updates.route = req.body.route.trim();
   if (req.file) updates.photo = req.file.filename;
 
   try{

@@ -7,14 +7,14 @@ mongoose.connect('mongodb+srv://golamkibria:1234@cluster0.lzxkxdz.mongodb.net/au
 
 
 const ownerSchema = new mongoose.Schema({
-  username: String, // Unique username for the owner
-  companyname: String, 
-  ownername: String,
-  password: String,
-  secret: Number,
-  phone: Number,
-  email: String,
-  photo: String // Will store file name (or URL) of uploaded image
+  username: { type: String },
+  companyname: { type: String },
+  ownername: { type: String },
+  password: { type: String },
+  secret: { type: Number },
+  phone: { type: Number },
+  email: { type: String },
+  photo: { type: String }
 });
 
 ownerSchema.plugin(plm);
