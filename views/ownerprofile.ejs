@@ -265,6 +265,20 @@
           <h5>🧾 Owner Orders</h5>
           <p>This is where order cards will go.</p>
         </div>
+        <div class="orders-container">
+          <h5>🧾 My Users</h5>
+           <% users.forEach(function(user) { %>
+    <div class="mb-2">
+      <strong><%= user.username %></strong>
+      <% if (user.tempPassword) { %>
+        <p>Password: <span id="pass-<%= user._id %>"><%= user.tempPassword %></span></p>
+        <button onclick="copyToClipboard('pass-<%= user._id %>')" class="btn btn-sm btn-success">Copy Password</button>
+      <% } else { %>
+        <p>✅ Password already changed.</p>
+      <% } %>
+    </div>
+  <% }); %>
+        </div>
       </div>
 
       <!-- 👉 Right Column -->
@@ -372,6 +386,13 @@
       const alerts = document.querySelectorAll('.alert');
       alerts.forEach(alert => alert.classList.remove('show'));
     }, 4000);
+
+    function copyToClipboard(id) {
+    const pass = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(pass).then(() => {
+      alert("Password copied!");
+    });
+  }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 

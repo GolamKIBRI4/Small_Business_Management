@@ -16,7 +16,12 @@ const userSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Owner"
-  }
+  },
+    isFirstLogin: {
+    type: Boolean,
+    default: true
+  },
+  tempPassword:  String // Temporary password for first login
 });
 
 userSchema.plugin(plm);

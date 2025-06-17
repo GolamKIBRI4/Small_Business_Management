@@ -40,7 +40,9 @@ router.get('/profile',isLoggedIn ,async function(req, res, next) {
 //owner profile
 router.get('/ownerprofile', isLoggedIn, async function(req, res, next) {
   const owner = await ownerModel.findById(req.user._id);
+  const users = await userModel.find({ owner: owner._id }); // Fetch users associated with this owner
   res.render('ownerprofile', { owner: owner,  
+    users: users,
     error: req.flash('error'),
   success: req.flash('success') 
 });
@@ -63,18 +65,49 @@ ownerModel.register(ownerData,req.body.password).then(function(registeredUser) {
     });
   });
 });
+//register a user
+router.post('/create-user',isLoggedIn,async function(req, res) {
+try{
+const userData = new userModel({
+    username: req.body.username,
+    email: req.body.email,
+    owner: req.user._id, // Associate with the logged-in owner
+    tempPassword: req.body.password, // Store temporary password
+    isFirstLogin: true // Mark as first login
+});
+const registeredUser = await userModel.register(userData, req.body.password);
+ req.flash("success", "✅ User created. Password can be copied until first login.");
+    res.redirect('/ownerprofile');
+}catch(err) {
+  console.error("❌ User registration failed:", err);
+  req.flash("error", "❌ User registration failed. Please try again.");
+  res.redirect('/ownerprofile');
+}});
 
 //user login
-router.post("/login", passport.authenticate("user-local",{
-  successRedirect: "/profile",
-  failureRedirect: "/"
-}), function(req,res){})
+router.post("/login", (req, res, next) => {
+  passport.authenticate("user-local", async (err, user, info) => {
+    if (err || !user) return res.redirect('/');
+    
+    req.logIn(user, async (err) => {
+      if (err) return next(err);
+      
+      if (user.isFirstLogin) {
+        return res.redirect('/reset-password'); // show reset page
+      } else {
+        return res.redirect('/profile');
+      }
+    });
+  })(req, res, next);
+});
+
 
 //owner login
 router.post("/ownerlogin", passport.authenticate("owner-local",{
   successRedirect: "/ownerprofile",
   failureRedirect: "/"
 }), function(req,res){});
+
 
 router.get('/logout', function(req, res,next) {
   req.logout(function(err) {
@@ -85,6 +118,30 @@ router.get('/logout', function(req, res,next) {
 router.get("/login", function(req, res) {
   res.render("login");
 });
+
+//password reset for first login
+// This route is for users who are logging in for the first time and need to set their password
+router.get('/reset-password', isLoggedIn, (req, res) => {
+  res.render('reset-password');
+});
+
+router.post('/reset-password', isLoggedIn, async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    await user.setPassword(req.body.newPassword);
+    user.isFirstLogin = false;
+    user.tempPassword = undefined;
+    await user.save();
+    req.flash('success', '✅ Password reset successful!');
+    res.redirect('/profile');
+  } catch (err) {
+    console.error("❌ Password reset error:", err);
+    req.flash('error', 'Password reset failed. Try again.');
+    res.redirect('/reset-password');
+  }
+});
+
+
 function isLoggedIn(req,res,next){
   if(req.isAuthenticated()){
     return next();
